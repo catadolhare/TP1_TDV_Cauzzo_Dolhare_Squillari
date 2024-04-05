@@ -19,13 +19,13 @@ def error_segmento(bp1, bp2, grilla_x, grilla_y, valores_y):
     return error
 
 def suma_errores(B:List[List[int]], grilla_x, grilla_y, valores_y):
-    error = 0
+    errores = 0
     for i in range(len(B)-2):
-        error += error_segmento(B[i], B[i+1], grilla_x, grilla_y, valores_y)
-    return error
+        errores += error_segmento(B[i], B[i+1], grilla_x, grilla_y, valores_y)
+    return errores
 
 def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_y):
-    min = 0
+    min = []
     if len(B) == k and suma_errores(B, grilla_x, grilla_y, valores_y) < suma_errores(min, grilla_x, grilla_y, valores_y):
         min = B
 
