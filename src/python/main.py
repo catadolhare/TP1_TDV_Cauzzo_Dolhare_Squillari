@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import funciones
 
 BIG_NUMBER = 1e10 # Revisar si es necesario.
 
@@ -7,7 +8,7 @@ def main():
 
 	# Ejemplo para leer una instancia con json
 	instance_name = "titanium.json"
-	filename = "../../data/" + instance_name
+	filename = "././data/" + instance_name
 	with open(filename) as f:
 		instance = json.load(f)
 	
@@ -15,7 +16,17 @@ def main():
 	m = 6
 	n = 6
 	N = 5
-	
+
+	grilla_x = funciones.discretizar(instance['x'], m)
+	grilla_y = funciones.discretizar(instance['y'], n)
+	print(instance['x'])
+	print(grilla_x)
+	print(grilla_y)
+
+	breakpoints = []
+	funciones.fuerza_bruta(breakpoints, K, m, n, grilla_x, grilla_y, instance['y'])
+	print(breakpoints)
+
 	# Ejemplo para definir una grilla de m x n.
 	grid_x = np.linspace(min(instance["x"]), max(instance["x"]), num=m, endpoint=True)
 	grid_y = np.linspace(min(instance["y"]), max(instance["y"]), num=n, endpoint=True)
