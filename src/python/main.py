@@ -24,7 +24,7 @@ def main():
 	print(grilla_y)
 
 	breakpoints = []
-	funciones.fuerza_bruta(breakpoints, K, m, n, grilla_x, grilla_y, instance['y'])
+	funciones.fuerza_bruta(breakpoints, 5, m, n, grilla_x, grilla_y, instance['x'], instance['y'], [], BIG_NUMBER)
 	print(breakpoints)
 
 	# Ejemplo para definir una grilla de m x n.
