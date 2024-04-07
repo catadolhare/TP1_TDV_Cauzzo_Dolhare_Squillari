@@ -28,8 +28,8 @@ def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
     if len(B) == k and suma_errores(B, grilla_x, grilla_y, valores_x, valores_y) < error_minimo:
         error_minimo = suma_errores(B, grilla_x, grilla_y, valores_x, valores_y)
         minimo = B
-    elif len(B) == k and suma_errores(B, grilla_x, grilla_y, valores_x, valores_y) >= suma_errores(minimo, grilla_x, grilla_y, valores_x,valores_y):
-        B.pop()
+    #elif len(B) == k and suma_errores(B, grilla_x, grilla_y, valores_x, valores_y) >= suma_errores(minimo, grilla_x, grilla_y, valores_x,valores_y):
+        #B.pop()
 
     else:
         if len(B) == 0:
@@ -46,4 +46,6 @@ def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
             for i in range(int(B[-1][0]) + 1, m1):
                 for j in range(1, m2):
                     B.append([i, j])
+                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_minimo)
+                    B.pop()
                     fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_minimo)
