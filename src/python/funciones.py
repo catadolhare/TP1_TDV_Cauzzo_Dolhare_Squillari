@@ -9,52 +9,42 @@ def discretizar(valores, m:int):
 def pendiente(bp1, bp2, grilla_x, grilla_y):
     return (grilla_y[bp2[1]] - grilla_y[bp1[1]])/(grilla_x[bp2[0]] - grilla_x[bp1[0]])
 
-def error_segmento(bp1, bp2, grilla_x, grilla_y, valores_x, valores_y):
-    error = 0
+def error_segmento(bp1:List[int], bp2:List[int], grilla_x, grilla_y, valores_x, valores_y):
+    error_aux = 0
+    if bp1[1] == -1:
+       bp1[1] = 0
     for i in range(len(valores_x)):
         if valores_x[i] >= grilla_x[bp1[0]] and valores_x[i] <= grilla_x[bp2[0]]:
-            error += abs(valores_y[i] - (pendiente(bp1, bp2, grilla_x, grilla_y)*(valores_x[i] - grilla_x[bp1[0]]) + grilla_y[bp1[1]]))
+            error_aux += abs(valores_y[i] - (pendiente(bp1, bp2, grilla_x, grilla_y)*(valores_x[i] - grilla_x[bp1[0]]) + grilla_y[bp1[1]]))
         elif valores_x[i] > grilla_x[bp2[0]]: #solo funciona si la lista esta ordenada
             break
-    return error
+    return error_aux
 
-def suma_errores(B:List[List[int]], grilla_x, grilla_y, valores_x, valores_y):
-    errores = 0
-    for i in range(len(B)-2):
-        errores += error_segmento(B[i], B[i+1], grilla_x, grilla_y, valores_x, valores_y)
-    return errores
-
-def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y, minimo:List[List[int]], error, error_minimo):
-    if len(B) == k and error < error_minimo:
+def fuerza_bruta(B:List[List[int]], x:int, k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y, minimo:List[List[int]], error, error_minimo, error_segmento1):
+    if k == 1 and error < error_minimo:
         error_minimo = error
-        minimo = B
+        minimo[:] = B[:]
 
     else:
-        if len(B) == 0:
-            for i in range(m2):
-                B.append([0, i])
-                error_segmento=suma_errores(B, grilla_x, grilla_y, valores_x, valores_y)
-                error+=error_segmento
-                fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo)
-                B.pop()
-                error -= error_segmento
+        #for i in range(m2):
+        #B = [[0, 0]]
 
-        elif len(B) == k:
-            for i in range(m2):
-                B.append([k-1, i])
-                error_segmento=suma_errores(B, grilla_x, grilla_y, valores_x, valores_y)
-                error+=error_segmento
-                fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo)
-                B.pop()
-                error -= error_segmento
-        else:
-            for i in range(int(B[-1][0]) + 1, m1):
-                for j in range(1, m2):
-                    B.append([i, j])
-                    error_segmento=suma_errores(B, grilla_x, grilla_y, valores_x, valores_y)
-                    error+=error_segmento
-                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo)
+        '''if len(B) == k-1:
+                for j in range(m2):
+                    B.append([k-1, j])
+                    error_segmento1=error_segmento([k-2, j-1], [k-1, j], grilla_x, grilla_y, valores_x, valores_y)
+                    error+=error_segmento1
+                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo, error_segmento1)
                     B.pop()
-                    error -= error_segmento
-                    #fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_minimo)
+                    error -= error_segmento1'''
+        
+            #else:
+        #for l in range(int(B[-1][0]) + 1, m1):
+        for j in range(m2):
+                B.append([x, j])
+                error_segmento1=error_segmento([x-1, j-1], [x, j], grilla_x, grilla_y, valores_x, valores_y)
+                error+=error_segmento1
+                fuerza_bruta(B, x+1, k-1, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo, error_segmento1)
+                B.pop()
+                error -= error_segmento1
         return minimo

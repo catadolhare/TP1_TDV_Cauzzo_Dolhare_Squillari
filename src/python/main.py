@@ -23,8 +23,8 @@ def main():
 	print(grilla_x)
 	print(grilla_y)
 
-	breakpoints = []
-	minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grilla_x, grilla_y, instance['x'], instance['y'], [], 0, BIG_NUMBER)
+	breakpoints = [[0,0]]
+	minimo = funciones.fuerza_bruta(breakpoints, 1, 5, m, n, grilla_x, grilla_y, instance['x'], instance['y'], [], 0, BIG_NUMBER, 0)
 	print(minimo)
 
 	# Ejemplo para definir una grilla de m x n.
