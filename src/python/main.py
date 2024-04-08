@@ -24,8 +24,8 @@ def main():
 	print(grilla_y)
 
 	breakpoints = []
-	funciones.fuerza_bruta(breakpoints, 5, m, n, grilla_x, grilla_y, instance['x'], instance['y'], [], BIG_NUMBER)
-	print(breakpoints)
+	minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grilla_x, grilla_y, instance['x'], instance['y'], [], 0, BIG_NUMBER)
+	print(minimo)
 
 	# Ejemplo para definir una grilla de m x n.
 	grid_x = np.linspace(min(instance["x"]), max(instance["x"]), num=m, endpoint=True)
