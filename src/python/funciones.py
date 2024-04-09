@@ -20,31 +20,33 @@ def error_segmento(bp1:List[int], bp2:List[int], grilla_x, grilla_y, valores_x, 
             break
     return error_aux
 
-def fuerza_bruta(B:List[List[int]], x:int, k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y, minimo:List[List[int]], error, error_minimo, error_segmento1):
-    if k == 1 and error < error_minimo:
-        error_minimo = error
+def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y, minimo:List[List[int]], error_total, error_minimo:List[int]):
+    error_segmento1 = 0
+    if k == 1 and error_total < error_minimo[0]: #ultimo se el ultimo de la grilla
+        error_minimo = [error_total]
         minimo[:] = B[:]
+        return minimo, error_minimo
 
     else:
         #for i in range(m2):
         #B = [[0, 0]]
 
         '''if len(B) == k-1:
-                for j in range(m2):
-                    B.append([k-1, j])
-                    error_segmento1=error_segmento([k-2, j-1], [k-1, j], grilla_x, grilla_y, valores_x, valores_y)
-                    error+=error_segmento1
-                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo, error_segmento1)
-                    B.pop()
-                    error -= error_segmento1'''
+            for j in range(m2):
+                B.append([k-1, j])
+                error_segmento1=error_segmento([k-2, j-1], [k-1, j], grilla_x, grilla_y, valores_x, valores_y)
+                error+=error_segmento1
+                fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo, error_segmento1)
+                B.pop()
+                error -= error_segmento1'''
         
             #else:
-        #for l in range(int(B[-1][0]) + 1, m1):
-        for j in range(m2):
-                B.append([x, j])
-                error_segmento1=error_segmento([x-1, j-1], [x, j], grilla_x, grilla_y, valores_x, valores_y)
-                error+=error_segmento1
-                fuerza_bruta(B, x+1, k-1, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error, error_minimo, error_segmento1)
-                B.pop()
-                error -= error_segmento1
-        return minimo
+        for l in range(int(B[-1][0]) + 1, m1):
+            for j in range(m2):
+                    B.append([l, j])
+                    error_segmento1=error_segmento([l-1, j-1], [l, j], grilla_x, grilla_y, valores_x, valores_y)
+                    error_total+=error_segmento1
+                    minimo, error_minimo = fuerza_bruta(B, k-1, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_total, error_minimo)
+                    B.pop()
+                    error_total -= error_segmento1
+        return minimo, error_minimo
