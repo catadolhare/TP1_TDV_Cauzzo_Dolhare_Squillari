@@ -17,21 +17,18 @@ def main():
 	n = 6
 	N = 5
 
-	grilla_x = funciones.discretizar(instance['x'], m)
-	grilla_y = funciones.discretizar(instance['y'], n)
-	print(instance['x'])
-	print(grilla_x)
-	print(grilla_y)
-
-	breakpoints = [[0,0]]
-	minimo, error_minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grilla_x, grilla_y, instance['x'], instance['y'], [], 0, [BIG_NUMBER])
-	print(minimo)
-	print(error_minimo)
-
-	# Ejemplo para definir una grilla de m x n.
+	# Definir grilla de m x n.
 	grid_x = np.linspace(min(instance["x"]), max(instance["x"]), num=m, endpoint=True)
 	grid_y = np.linspace(min(instance["y"]), max(instance["y"]), num=n, endpoint=True)
+	print(grid_x)
+	print(grid_y)
 
+	breakpoints = [[0,0]]
+	error_minimo = BIG_NUMBER
+	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grid_x, grid_y, instance['x'], instance['y'], [], 0, error_minimo)
+	print(breakpoints)
+	print(error_minimo)
+	
 
 	# TODO: aca se deberia ejecutar el algoritmo.
 

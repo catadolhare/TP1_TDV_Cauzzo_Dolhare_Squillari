@@ -2,9 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include "include/json.hpp"
-
 // Para libreria de JSON.
 using namespace nlohmann;
+#include <funciones.h>
 
 int main(int argc, char** argv) {
     std::string instance_name = "../../data/titanium.json";
