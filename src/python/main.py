@@ -23,7 +23,7 @@ def main():
 	print(grid_x)
 	print(grid_y)
 
-	breakpoints = [[0,0]]
+	breakpoints = []
 	error_minimo = BIG_NUMBER
 	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grid_x, grid_y, instance['x'], instance['y'], [], 0, error_minimo)
 	print(breakpoints)
@@ -40,8 +40,8 @@ def main():
 	# La solucion es una lista de tuplas (i,j), donde:
 	# - i indica el indice del punto de la discretizacion de la abscisa
 	# - j indica el indice del punto de la discretizacion de la ordenada.
-	best['sol'] = [(0, 0), (1, 0), (2, 0), (3, 2), (4, 0), (5, 0)]
-	best['obj'] = 5.927733333333335
+	best['sol'] = breakpoints
+	best['obj'] = error_minimo
 
 	# Represetnamos la solucion con un diccionario que indica:
 	# - n: cantidad de breakpoints
