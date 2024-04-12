@@ -23,14 +23,15 @@ def main():
 	print(grid_x)
 	print(grid_y)
 
+	# TODO: aca se deberia ejecutar el algoritmo.
+
 	breakpoints = []
 	error_minimo = BIG_NUMBER
-	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grid_x, grid_y, instance['x'], instance['y'], [], 0, error_minimo)
+	minimo = []
+	error_total = 0
+	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grid_x, grid_y, instance['x'], instance['y'], minimo, error_total, error_minimo)
 	print(breakpoints)
 	print(error_minimo)
-	
-
-	# TODO: aca se deberia ejecutar el algoritmo.
 
 	best = {}
 	best['sol'] = [None]*(N+1)
