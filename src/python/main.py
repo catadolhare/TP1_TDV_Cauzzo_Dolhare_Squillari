@@ -29,7 +29,7 @@ def main():
 	error_minimo = BIG_NUMBER
 	minimo = []
 	error_total = 0
-	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 5, m, n, grid_x, grid_y, instance['x'], instance['y'], minimo, error_total, error_minimo)
+	breakpoints, error_minimo = funciones.backtracking(breakpoints, K, m, n, grid_x, grid_y, instance['x'], instance['y'], minimo, error_total, error_minimo)
 	print(breakpoints)
 	print(error_minimo)
 
