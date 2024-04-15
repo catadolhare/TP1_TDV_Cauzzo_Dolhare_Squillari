@@ -32,7 +32,7 @@ def main():
 	minimo = []
 	global error_total 
 	error_total = 0
-	breakpoints, error_minimo = funciones.programacion_dinamica(breakpoints, K, K-1, m1, m2, 0, 0, {}, grid_x, grid_y, instance["x"], instance["y"])
+	error_minimo = funciones.programacion_dinamica(breakpoints, K, K-1, m1, m2, m1-1, m2-1, {}, grid_x, grid_y, instance["x"], instance["y"])
 	print(breakpoints)
 	print(error_minimo)
 
