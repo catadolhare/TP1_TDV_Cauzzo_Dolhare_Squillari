@@ -32,7 +32,7 @@ def main():
 	minimo = []
 	global error_total 
 	error_total = 0
-	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 6, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	breakpoints, error_minimo = funciones.programacion_dinamica(breakpoints, K, K-1, m1, m2, 0, 0, {}, grid_x, grid_y, instance["x"], instance["y"])
 	print(breakpoints)
 	print(error_minimo)
 
@@ -58,7 +58,7 @@ def main():
 	solution['obj'] = best['obj']
 
 	# Se guarda el archivo en formato JSON
-	with open('solution_fuerza_bruta_6_6_6' + instance_name, 'w') as f:
+	with open('solution_pd_6_6_5' + instance_name, 'w') as f:
 		json.dump(solution, f)
 
 	
