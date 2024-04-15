@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 #variables globales
 minimo:List[List[int]] = []
@@ -74,13 +74,13 @@ def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
 
         return minimo, error_minimo
         
-def programacion_dinamica(B:List[List[int]], k:int, M:int, m1:int, m2:int, i:int, j:int, estado:Dict[List[List[int]], float], grilla_x, grilla_y, valores_x, valores_y):
+def programacion_dinamica(B:List[Tuple[int]], k:int, M:int, m1:int, m2:int, i:int, j:int, estado:Dict[List[List[int]], float], grilla_x, grilla_y, valores_x, valores_y):
     minimo_cb = 1e10
     minimo_pd = 1e10
     minimo_bp = []
     if M == 1:
         for l in range(m2):
-            B.append([0, l])
+            B.append((0, l))
             error_segmento_cb = error_segmento([0, l], [i, j], grilla_x, grilla_y, valores_x, valores_y)
             estado[B] = minimo_cb
             if error_segmento_cb < minimo_cb:
@@ -96,12 +96,12 @@ def programacion_dinamica(B:List[List[int]], k:int, M:int, m1:int, m2:int, i:int
         else:
             if len(estado) == 0:
                 for l in range(m2):
-                    B.append([0, l])
+                    B.append((0, l))
 
 
 
             for n in range(m2):
-                B.append([B[-1][0], n])
+                B.append((B[-1][0], n))
                 error_segmento_pd = error_segmento(B[-1], [i,j], grilla_x, grilla_y, valores_x, valores_y)
                 minimo_pd = min(minimo_pd, error_segmento_pd + programacion_dinamica(B, k, M-1, B[-1][0], B[-1][1], estado))
                 estado[B] = minimo_pd
