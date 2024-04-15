@@ -13,23 +13,26 @@ def main():
 		instance = json.load(f)
 	
 	K = instance["n"]
-	m = 6
-	n = 6
+	m1 = 6
+	m2 = 6
 	N = 5
 
 	# Definir grilla de m x n.
-	grid_x = np.linspace(min(instance["x"]), max(instance["x"]), num=m, endpoint=True)
-	grid_y = np.linspace(min(instance["y"]), max(instance["y"]), num=n, endpoint=True)
+	grid_x = np.linspace(min(instance["x"]), max(instance["x"]), num=m1, endpoint=True)
+	grid_y = np.linspace(min(instance["y"]), max(instance["y"]), num=m2, endpoint=True)
 	print(grid_x)
 	print(grid_y)
 
 	# TODO: aca se deberia ejecutar el algoritmo.
 
 	breakpoints = []
+	global error_minimo 
 	error_minimo = BIG_NUMBER
+	global minimo 
 	minimo = []
+	global error_total 
 	error_total = 0
-	breakpoints, error_minimo = funciones.backtracking(breakpoints, K, m, n, grid_x, grid_y, instance['x'], instance['y'], minimo, error_total, error_minimo)
+	breakpoints, error_minimo = funciones.fuerza_bruta(breakpoints, 6, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
 	print(breakpoints)
 	print(error_minimo)
 
@@ -55,7 +58,7 @@ def main():
 	solution['obj'] = best['obj']
 
 	# Se guarda el archivo en formato JSON
-	with open('solution_' + instance_name, 'w') as f:
+	with open('solution_fuerza_bruta_6_6_6' + instance_name, 'w') as f:
 		json.dump(solution, f)
 
 	

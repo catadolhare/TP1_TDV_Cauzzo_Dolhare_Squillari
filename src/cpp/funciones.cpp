@@ -8,11 +8,11 @@ using namespace std;
 vector<float> discretizar(vector<float> valores, int m){
     vector<float> discretizado;
     for(int i=0; i<valores.size(); i++){
+
         float valor = valores[i];
         int valor_discretizado = valores[0] + i*((valores[-1]-valores[0])/(m-1));
         discretizado.push_back(valor_discretizado);
     }
-
     return discretizado;
 }
 
@@ -53,6 +53,35 @@ void fuerza_bruta(vector<vector<int>>& B, int k, int m1, int m2, vector<float>& 
                     error_segmento1 = error_segmento(B[B.size() - 2], B.back(), grilla_x, grilla_y, valores_x, valores_y);
                     error_total += error_segmento1;
                     fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_total, error_minimo);
+                    B.pop_back();
+                    error_total -= error_segmento1;
+                }
+            }
+        }
+    }
+}
+
+void backtracking(vector<vector<int>>& B, int k, int m1, int m2, vector<float>& grilla_x, vector<float>& grilla_y, vector<float>& valores_x, vector<float>& valores_y, vector<vector<int>>& minimo, float& error_total, float& error_minimo){
+    float error_segmento1 = 0;
+    if (B.size() == k) {
+        if (error_total < error_minimo && B.back()[0] == m1 - 1) {
+            error_minimo = error_total;
+            minimo = B;
+        }
+    } else {
+        if (B.empty()) {
+            for (int i = 0; i < m2; ++i) {
+                B.push_back({0, i});
+                backtracking(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_total, error_minimo);
+                B.pop_back();
+            }
+        } else if (error_total < error_minimo) {
+            for (int l = B.back()[0] + 1; l < m1; ++l) {
+                for (int j = 0; j < m2; ++j) {
+                    B.push_back({l, j});
+                    error_segmento1 = error_segmento(B[B.size() - 2], B.back(), grilla_x, grilla_y, valores_x, valores_y);
+                    error_total += error_segmento1;
+                    backtracking(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, minimo, error_total, error_minimo);
                     B.pop_back();
                     error_total -= error_segmento1;
                 }
