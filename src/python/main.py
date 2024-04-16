@@ -13,7 +13,7 @@ def main():
 	with open(filename) as f:
 		instance = json.load(f)
 	
-	K = 6
+	K = 4
 	m1 = 6
 	m2 = 6
 	N = 5
@@ -27,19 +27,13 @@ def main():
 	# TODO: aca se deberia ejecutar el algoritmo.
 
 	breakpoints = []
-	global error_minimo 
-	error_minimo = BIG_NUMBER
-	global minimo 
-	minimo = []
-	global error_total 
-	error_total = 0
 	inicio = time.time()
-	breakpoints, error_minimo = funciones.backtracking(breakpoints, K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	minimom, error_minimom = funciones.llamada_fuerza_bruta(breakpoints, K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
 	fin = time.time()
 	tiempo = fin - inicio
 	print(tiempo)
-	print(breakpoints)
-	print(error_minimo)
+	print(minimom)
+	print(error_minimom)
 
 	best = {}
 	best['sol'] = [None]*(N+1)
@@ -51,7 +45,7 @@ def main():
 	# - i indica el indice del punto de la discretizacion de la abscisa
 	# - j indica el indice del punto de la discretizacion de la ordenada.
 	best['sol'] = breakpoints
-	best['obj'] = error_minimo
+	best['obj'] = error_minimom
 	best['tiempo'] = tiempo
 
 	# Represetnamos la solucion con un diccionario que indica:
