@@ -1,4 +1,5 @@
 from typing import List, Dict, Tuple
+import time
 
 #variables globales
 minimo:List[List[int]] = []
@@ -53,6 +54,10 @@ def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
         
 
 def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+        global error_total
+        global error_minimo
+        global minimo
+        
         error_segmento1 = 0
         if len(B) == k:
             if error_total < error_minimo and B[-1][0] == m1-1:
@@ -70,7 +75,7 @@ def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
                 for l in range(int(B[-1][0]) + 1, m1):
                     for j in range(m2):
                         B.append([l, j])
-                        error_segmento1=error_segmento(B[-2], B[-1])
+                        error_segmento1=error_segmento(B[-2], B[-1], grilla_x, grilla_y, valores_x, valores_y)
                         error_total+=error_segmento1
                         minimo, error_minimo = backtracking(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
                         B.pop()
