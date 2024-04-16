@@ -27,18 +27,20 @@ def llamada_fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, gri
     global error_minimo
     global minimo
 
-    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, error_total, error_minimo, minimo)
+    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
 
     return minimo, error_minimo
 
 
-def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y, error_total, error_minimo, minimo):
+def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+    global error_total
+    global error_minimo
+    global minimo
     
     error_segmento1 = 0
     if len(B) == k:
         if error_total < error_minimo and B[-1][0] == m1-1:
             error_minimo = error_total
-            
             minimo[:] = B[:]
         return
 
@@ -46,7 +48,7 @@ def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
         if len(B) == 0:
             for i in range(m2):
                 B.append([0, i])
-                fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, error_total, error_minimo, minimo)
+                fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
                 B.pop()
         else:
             for l in range(int(B[-1][0]) + 1, m1):
@@ -54,41 +56,48 @@ def fuerza_bruta(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
                     B.append([l, j])
                     error_segmento1=error_segmento(B[-2], B[-1], grilla_x, grilla_y, valores_x, valores_y)
                     error_total+=error_segmento1
-                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y, error_total, error_minimo, minimo)
+                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
                     B.pop()
                     error_total -= error_segmento1
         return
         
+def llamada_backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+    global error_total
+    global error_minimo
+    global minimo
+
+    backtracking(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+
+    return minimo, error_minimo
 
 def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
-        global error_total
-        global error_minimo
-        global minimo
-        
-        error_segmento1 = 0
-        if len(B) == k:
-            if error_total < error_minimo and B[-1][0] == m1-1:
-                error_minimo = error_total
-                minimo[:] = B[:]
-            return minimo, error_minimo
+    global error_total
+    global error_minimo
+    global minimo
+    
+    error_segmento1 = 0
+    if len(B) == k:
+        if error_total < error_minimo and B[-1][0] == m1-1:
+            error_minimo = error_total
+            minimo[:] = B[:]
+        return
 
-        elif error_total < error_minimo:
-            if len(B) == 0:
-                for i in range(m2):
-                    B.append([0, i])
-                    minimo, error_minimo = backtracking(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+    elif error_total < error_minimo:
+        if len(B) == 0:
+            for i in range(m2):
+                B.append([0, i])
+                fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+                B.pop()
+        else:
+            for l in range(int(B[-1][0]) + 1, m1):
+                for j in range(m2):
+                    B.append([l, j])
+                    error_segmento1=error_segmento(B[-2], B[-1], grilla_x, grilla_y, valores_x, valores_y)
+                    error_total+=error_segmento1
+                    fuerza_bruta(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
                     B.pop()
-            else:
-                for l in range(int(B[-1][0]) + 1, m1):
-                    for j in range(m2):
-                        B.append([l, j])
-                        error_segmento1=error_segmento(B[-2], B[-1], grilla_x, grilla_y, valores_x, valores_y)
-                        error_total+=error_segmento1
-                        minimo, error_minimo = backtracking(B, k, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
-                        B.pop()
-                        error_total -= error_segmento1
-
-        return minimo, error_minimo
+                    error_total -= error_segmento1
+        return
         
 def programacion_dinamica(B:List[Tuple[int]], k:int, M:int, m1:int, m2:int, i:int, j:int, estado:Dict[Tuple[Tuple[int]], float], grilla_x, grilla_y, valores_x, valores_y):
     global minimo_cb
@@ -129,5 +138,3 @@ def programacion_dinamica(B:List[Tuple[int]], k:int, M:int, m1:int, m2:int, i:in
                     B.pop()
                 
             return minimo_pd
-
-

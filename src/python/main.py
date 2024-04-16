@@ -13,7 +13,7 @@ def main():
 	with open(filename) as f:
 		instance = json.load(f)
 	
-	K = 4
+	K = 5
 	m1 = 6
 	m2 = 6
 	N = 5
@@ -28,7 +28,7 @@ def main():
 
 	breakpoints = []
 	inicio = time.time()
-	minimom, error_minimom = funciones.llamada_fuerza_bruta(breakpoints, K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	minimom, error_minimom = funciones.llamada_backtracking(breakpoints, K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
 	fin = time.time()
 	tiempo = fin - inicio
 	print(tiempo)
