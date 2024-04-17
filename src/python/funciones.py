@@ -140,8 +140,6 @@ def programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_
 
                 
         estado[clave] = error_minimo_local
-        print(estado)
-        print(predecesor)
         return estado[clave]
     
 def reconstruccion_pd(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
