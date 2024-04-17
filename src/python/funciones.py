@@ -7,6 +7,7 @@ error_total:int = 0
 error_minimo:int = 1e10
 
 estado:Dict[str, float] = {}
+predecesor:Dict[str, List[int]] = {}
 
 def pendiente(bp1, bp2, grilla_x, grilla_y):
     return (grilla_y[bp2[1]] - grilla_y[bp1[1]])/(grilla_x[bp2[0]] - grilla_x[bp1[0]])
@@ -99,14 +100,17 @@ def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
 
 def llamada_programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
     global estado
+    global predecesor
 
-    error = programacion_dinamica(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
-    #breakpoints_pd = reconstruccion_pd(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+    error_pd = programacion_dinamica(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+    breakpoints_pd = reconstruccion_pd(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
 
-    return error #, breakpoints_pd
+    return error_pd, breakpoints_pd
 
 def programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
     global estado
+    global predecesor
+
     error_segmento_pd:float = 0
     error_minimo_local = 1e10
     
@@ -117,27 +121,49 @@ def programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_
     if M == 1 and i > 0:
         for z in range(m2):
             error_segmento_pd = error_segmento([0, z], [i, j], grilla_x, grilla_y, valores_x, valores_y)
-            error_minimo_local = min(error_minimo_local, error_segmento_pd)
+            if error_segmento_pd < error_minimo_local:
+                error_minimo_local = error_segmento_pd
+                bp_y = z
+                predecesor[clave] = [0, bp_y]
         estado[clave] = error_minimo_local
+        
         return error_minimo_local
 
     else:
         for l in range(0, i):
             for n in range(m2):
                 error_segmento_pd = error_segmento([l, n], [i, j], grilla_x, grilla_y, valores_x, valores_y)
-                error_minimo_local = min(error_minimo_local, error_segmento_pd + programacion_dinamica(M-1, l, n, m1, m2, grilla_x, grilla_y, valores_x, valores_y))
+                error_aux = error_segmento_pd + programacion_dinamica(M-1, l, n, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+                if error_aux < error_minimo_local:
+                    error_minimo_local = error_aux
+                    predecesor[clave] = [l, n]
+
+                
         estado[clave] = error_minimo_local
         print(estado)
+        print(predecesor)
         return estado[clave]
     
 def reconstruccion_pd(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+    global estado
+    global predecesor
+    
+    error_rec_minimo = 1e10
     B = []
     for l in range(m2):
         error_reconstruccion = programacion_dinamica(M, m1-1, l, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
         if error_reconstruccion < error_rec_minimo:
             error_rec_minimo = error_reconstruccion
             bp_y = l
+    error_rec_minimo = programacion_dinamica(M, m1-1, bp_y, m1, m2, grilla_x, grilla_y, valores_x, valores_y) #lo corremos una vez más con los puntos que hacen el minimo para tener bien el diccionario
     B.append([m1-1, bp_y])
+    clave = str(M) + "-" + str(m1-1) + "-" + str(bp_y)
+    while M > 0:
+        B.append(predecesor[clave])
+        clave = str(M-1) + "-" + str(predecesor[clave][0]) + "-" + str(predecesor[clave][1])
+        M -= 1
+    B = B[::-1]
+    return B
 
 
     

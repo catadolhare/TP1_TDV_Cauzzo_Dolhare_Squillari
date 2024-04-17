@@ -15,7 +15,7 @@ def main():
 	with open(filename) as f:
 		instance = json.load(f)
 	
-	K = 4
+	K = 5
 	m1 = 6
 	m2 = 6
 	N = 5
