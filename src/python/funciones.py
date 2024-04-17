@@ -6,9 +6,8 @@ minimo:List[List[int]] = []
 error_total:int = 0
 error_minimo:int = 1e10
 
-minimo_cb:int = 1e10
-minimo_pd:int = 1e10
-minimo_bp:List[Tuple[int]] = []
+error_minimo_pd = 1e10
+estado:Dict[str, float] = {}
 
 def pendiente(bp1, bp2, grilla_x, grilla_y):
     return (grilla_y[bp2[1]] - grilla_y[bp1[1]])/(grilla_x[bp2[0]] - grilla_x[bp1[0]])
@@ -98,43 +97,47 @@ def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
                     B.pop()
                     error_total -= error_segmento1
         return
-        
-def programacion_dinamica(B:List[Tuple[int]], k:int, M:int, m1:int, m2:int, i:int, j:int, estado:Dict[Tuple[Tuple[int]], float], grilla_x, grilla_y, valores_x, valores_y):
-    global minimo_cb
-    global minimo_pd
-    global minimo_bp
-    error_segmento_cb = 0
-    error_segmento_pd = 0
+
+def llamada_programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+    global error_minimo_pd
+    global estado
+
+    programacion_dinamica(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+    breakpoints_pd = reconstruccion_pd(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+
+    return error_minimo_pd, breakpoints_pd
+
+def programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+    global error_minimo_pd
+    global estado
+    
+    error_segmento_pd:float = 0
     
     if M == 1:
-        for l in range(m2):
-            B.append((0, l))
-            error_segmento_cb = error_segmento([0, l], [i, j], grilla_x, grilla_y, valores_x, valores_y)
-            estado[tuple(B)] = minimo_cb
-            if error_segmento_cb < minimo_cb:
-                minimo_cb = error_segmento_cb
-                minimo_bp[:] = B[:]
-            B.pop()
-        return minimo_cb
-    
-    else:
-        if tuple(B) in estado.keys():
-            return estado[tuple(B)]
-        
-        else:
-            if len(B) == 0: #esto esta mal
-                for l in range(m2):
-                    B.append((0, l))
-                    error_segmento_pd = error_segmento([0, l], [i, j], grilla_x, grilla_y, valores_x, valores_y)
-                    minimo_pd = min(minimo_pd, error_segmento_pd + programacion_dinamica(B, k, M-1, m1, m2, 0, l, estado, grilla_x, grilla_y, valores_x, valores_y))
-                    B.pop()
+        for z in range(m2):
+            error_segmento_pd = error_segmento([0, z], [i, j], grilla_x, grilla_y, valores_x, valores_y)
+            error_minimo_pd = min(error_minimo_pd, error_segmento_pd)
+            return error_minimo_pd
 
-            else:
-                for n in range(m2):
-                    B.append((B[-1][0]+1, n))
-                    error_segmento_pd = error_segmento(B[-1], [i,j], grilla_x, grilla_y, valores_x, valores_y)
-                    minimo_pd = min(minimo_pd, error_segmento_pd + programacion_dinamica(B, k, M-1, m1, m2, B[-1][0], B[-1][1], estado, grilla_x, grilla_y, valores_x, valores_y))
-                    estado[tuple(B)] = minimo_pd
-                    B.pop()
-                
-            return minimo_pd
+    else:
+        clave = str(M) + "-" + str(i) + "-" + str(j)
+        if clave in estado:
+            return estado[clave]
+        else:
+            for l in range(0, i-1):
+                for n in range(m2-1):
+                    error_segmento_pd = error_segmento([l, n], [i, j], grilla_x, grilla_y, valores_x, valores_y)
+                    error_minimo_pd = min(error_minimo_pd, error_segmento_pd + programacion_dinamica(M-1, l, n, m1, m2, grilla_x, grilla_y, valores_x, valores_y))
+                    estado[clave] = error_minimo_pd
+
+            return estado[clave]
+    
+def reconstruccion_pd(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+    B = []
+    for l in range(m2):
+        error_reconstruccion = programacion_dinamica(M, m1-1, l, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+        if error_reconstruccion < error_rec_minimo:
+            error_rec_minimo = error_reconstruccion
+            bp_y = l
+    B.append([m1-1, bp_y])
+    

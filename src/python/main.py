@@ -28,12 +28,14 @@ def main():
 	# TODO: aca se deberia ejecutar el algoritmo.
 
 	inicio = time.time()
-	minimo_main, error_minimo_main = funciones.llamada_backtracking([], K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	minimo_main, error_minimo_main = funciones.llamada_fuerza_bruta([], K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	#error_minimo_pd = funciones.llamada_programacion_dinamica(K-1, 5, 0, m1, m2, grid_x, grid_y, instance["x"], instance["y"],)
 	fin = time.time()
 	tiempo = fin - inicio
-	print(tiempo)
-	print(minimo_main)
-	print(error_minimo_main)
+	#print(error_minimo_pd)
+	print('tiempo = ', tiempo)
+	print('breakpoints = ', minimo_main)
+	print('error = ', error_minimo_main)
 
 	best = {}
 	best['sol'] = [None]*(N+1)
@@ -59,9 +61,6 @@ def main():
 	solution['obj'] = best['obj']
 	solution['tiempo'] = best['tiempo']
 
-	print(solution['x'])
-	print(solution['y'])
-
 	plt.plot(instance['x'], instance['y'], 'k.')
 	plt.plot(solution['x'], solution['y'], 'r-')
 	titulo = "Solución para " + instance_name + " con " + str(K) + " breakpoints"
@@ -76,6 +75,6 @@ def main():
 	with open('solution_backtracking_' + str(m1) +'_' + str(m2) + '_' + str(K) + '_' + instance_name, 'w') as f:
 		json.dump(solution, f)
 
-	
+
 if __name__ == "__main__":
 	main()
