@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 BIG_NUMBER = 1e10 # Revisar si es necesario.
 
 def main():
+	print('hola')
 
 	# Ejemplo para leer una instancia con json
 	instance_name = "titanium.json"
@@ -14,7 +15,7 @@ def main():
 	with open(filename) as f:
 		instance = json.load(f)
 	
-	K = 5
+	K = 4
 	m1 = 6
 	m2 = 6
 	N = 5
@@ -28,15 +29,15 @@ def main():
 	# TODO: aca se deberia ejecutar el algoritmo.
 
 	inicio = time.time()
-	minimo_main, error_minimo_main = funciones.llamada_fuerza_bruta([], K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
-	#error_minimo_pd = funciones.llamada_programacion_dinamica(K-1, 5, 0, m1, m2, grid_x, grid_y, instance["x"], instance["y"],)
+	#minimo_main, error_minimo_main = funciones.llamada_fuerza_bruta([], K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	error_minimo_pd_main = funciones.llamada_programacion_dinamica(K-1, 5, 0, m1, m2, grid_x, grid_y, instance["x"], instance["y"],)
 	fin = time.time()
 	tiempo = fin - inicio
-	#print(error_minimo_pd)
+	print(error_minimo_pd_main)
 	print('tiempo = ', tiempo)
-	print('breakpoints = ', minimo_main)
-	print('error = ', error_minimo_main)
-
+	#print('breakpoints = ', minimo_main)
+	#print('error = ', error_minimo_main)
+'''
 	best = {}
 	best['sol'] = [None]*(N+1)
 	best['obj'] = BIG_NUMBER
@@ -46,8 +47,8 @@ def main():
 	# La solucion es una lista de tuplas (i,j), donde:
 	# - i indica el indice del punto de la discretizacion de la abscisa
 	# - j indica el indice del punto de la discretizacion de la ordenada.
-	best['sol'] = minimo_main
-	best['obj'] = error_minimo_main
+	#best['sol'] = minimo_main
+	#best['obj'] = error_minimo_main
 	best['tiempo'] = tiempo
 
 	# Represetnamos la solucion con un diccionario que indica:
@@ -75,6 +76,6 @@ def main():
 	with open('solution_backtracking_' + str(m1) +'_' + str(m2) + '_' + str(K) + '_' + instance_name, 'w') as f:
 		json.dump(solution, f)
 
-
+'''
 if __name__ == "__main__":
 	main()
