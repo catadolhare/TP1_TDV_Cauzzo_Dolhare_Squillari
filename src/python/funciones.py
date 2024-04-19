@@ -98,14 +98,13 @@ def backtracking(B:List[List[int]], k:int, m1:int, m2:int, grilla_x, grilla_y, v
                     error_total -= error_segmento1
         return
 
-def llamada_programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+def llamada_programacion_dinamica(M:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
     global estado
     global predecesor
 
-    error_pd = programacion_dinamica(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
-    breakpoints_pd = reconstruccion_pd(M, i, j, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
+    breakpoints_pd, error_pd = reconstruccion_pd(M, m1, m2, grilla_x, grilla_y, valores_x, valores_y)
 
-    return error_pd, breakpoints_pd
+    return breakpoints_pd, error_pd
 
 def programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
     global estado
@@ -142,7 +141,7 @@ def programacion_dinamica(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_
         estado[clave] = error_minimo_local
         return estado[clave]
     
-def reconstruccion_pd(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
+def reconstruccion_pd(M:int, m1:int, m2:int, grilla_x, grilla_y, valores_x, valores_y):
     global estado
     global predecesor
     
@@ -161,4 +160,4 @@ def reconstruccion_pd(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, v
         clave = str(M-1) + "-" + str(predecesor[clave][0]) + "-" + str(predecesor[clave][1])
         M -= 1
     B = B[::-1]
-    return B
+    return B, error_rec_minimo
