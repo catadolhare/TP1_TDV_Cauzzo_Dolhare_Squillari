@@ -162,6 +162,3 @@ def reconstruccion_pd(M:int, i:int, j:int, m1:int, m2:int, grilla_x, grilla_y, v
         M -= 1
     B = B[::-1]
     return B
-
-
-    

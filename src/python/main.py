@@ -8,14 +8,14 @@ BIG_NUMBER = 1e10 # Revisar si es necesario.
 
 def main():
 	# Ejemplo para leer una instancia con json
-	instance_name = "toy_instance.json"
+	instance_name = "titanium.json"
 	filename = "././data/" + instance_name
 	with open(filename) as f:
 		instance = json.load(f)
 	
-	K = 6
-	m1 = 6
-	m2 = 6
+	K = 5
+	m1 = 10
+	m2 = 10
 	N = 5
 
 	# Definir grilla de m x n.
@@ -27,15 +27,15 @@ def main():
 	# TODO: aca se deberia ejecutar el algoritmo.
 
 	inicio = time.time()
-	#minimo_main, error_minimo_main = funciones.llamada_backtracking([], K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
-	error_minimo_pd_main, breakpoints_pd = funciones.llamada_programacion_dinamica(K-1, 5, 0, m1, m2, grid_x, grid_y, instance["x"], instance["y"],)
+	minimo_main, error_minimo_main = funciones.llamada_backtracking([], K, m1, m2, grid_x, grid_y, instance["x"], instance["y"])
+	#error_minimo_pd_main, breakpoints_pd = funciones.llamada_programacion_dinamica(K-1, 5, 0, m1, m2, grid_x, grid_y, instance["x"], instance["y"],)
 	fin = time.time()
 	tiempo = fin - inicio
-	print(error_minimo_pd_main)
-	print(breakpoints_pd)
+	#print(error_minimo_pd_main)
+	#print(breakpoints_pd)
 	print('tiempo = ', tiempo)
-	#print('breakpoints = ', minimo_main)
-	#print('error = ', error_minimo_main)
+	print('breakpoints = ', minimo_main)
+	print('error = ', error_minimo_main)
 
 	best = {}
 	best['sol'] = [None]*(N+1)
@@ -46,8 +46,8 @@ def main():
 	# La solucion es una lista de tuplas (i,j), donde:
 	# - i indica el indice del punto de la discretizacion de la abscisa
 	# - j indica el indice del punto de la discretizacion de la ordenada.
-	best['sol'] = breakpoints_pd
-	best['obj'] = error_minimo_pd_main
+	best['sol'] = minimo_main
+	best['obj'] = error_minimo_main
 	best['tiempo'] = tiempo
 
 	# Represetnamos la solucion con un diccionario que indica:
@@ -70,10 +70,10 @@ def main():
 	plt.xticks(grid_x)
 	plt.yticks(grid_y)
 	plt.show()
-'''
+
 	# Se guarda el archivo en formato JSON
-	with open('CAMBIEN NOMBRE' + str(m1) +'_' + str(m2) + '_' + str(K) + '_' + instance_name, 'w') as f:
-		json.dump(solution, f)'''
+	with open('solution_backtracking_py_' + str(m1) +'_' + str(m2) + '_' + str(K) + '_' + instance_name, 'w') as f:
+		json.dump(solution, f)
 
 
 if __name__ == "__main__":

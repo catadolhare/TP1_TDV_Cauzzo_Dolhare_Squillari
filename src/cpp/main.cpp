@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     input >> instance;
     input.close();
 
-    int K = instance["n"];
+    int K = 5; //instance["n"];
     int m = 6;
     int n = 6;
     int N = 5;
@@ -33,11 +33,31 @@ int main(int argc, char** argv) {
     for(int i = 0;  i < grid_x.size(); i++){
         cout << grid_x[i] << " ";
     }
+    cout << endl;
     cout << "Grid_y: " << endl;
     for(int i = 0;  i < grid_y.size(); i++){
         cout << grid_y[i] << " ";
     }
+    cout << endl;
 
+
+    vector<vector<int>> breakpoints = {};
+    vector<float> valores_x = instance["x"];
+    vector<float> valores_y = instance["y"];
+
+    tuple<vector<vector<int>>, float> solucion = llamada_programacion_dinamica(K-1, m, n, grid_x, grid_y, valores_x, valores_y);
+    vector<vector<int>> minimo_sol = get<0>(solucion);
+    float error_minimo_sol = get<1>(solucion);
+
+    cout << "Breakpoints:" << endl;
+    for(int i = 0;  i < minimo_sol.size(); i++){
+        cout << "[" << minimo_sol[i][0] << ", " << minimo_sol[i][1] << ']' << endl;
+    }
+    cout << "Error: " << error_minimo_sol << endl;
+    
+
+   // tuple<vector<vector<int>>, float> solu=llamada_backtracking(breakpoints, 5, m, n, grid_x, grid_y, valores_x, valores_y);
+    //cout<< solucion << endl;
     // Ejemplo para guardar json.
     // Probamos guardando el mismo JSON de instance, pero en otro archivo.
     std::ofstream output("test_output.out");
