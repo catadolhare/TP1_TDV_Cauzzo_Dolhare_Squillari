@@ -41,7 +41,7 @@ def main():
 
 	N=5
 
-	# Definir grilla de m x n.
+	# Definir grilla de m1 x m2.
 	grid_x = np.linspace(min(instance["x"]), max(instance["x"]), num=m1, endpoint=True)
 	grid_y = np.linspace(min(instance["y"]), max(instance["y"]), num=m2, endpoint=True)
 	print("Valores del eje x de la grilla:")

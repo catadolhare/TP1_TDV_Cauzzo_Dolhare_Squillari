@@ -76,14 +76,10 @@ tuple<vector<vector<int>>, float> llamada_fuerza_bruta(vector<vector<int>>& B, i
 
 void fuerza_bruta(vector<vector<int>>& B, int k, int m1, int m2, vector<float>& grilla_x, vector<float>& grilla_y, vector<float>& valores_x, vector<float>& valores_y){
     float error_segmento1 = 0;
-     if (B.size() == k) {
-        //cout << "----------" << endl;
-        //cout << "Error total entrado a caso base: " << error_total << endl;
+    if (B.size() == k) {
         if (error_total < error_minimo && B.back().front() == m1 - 1) {
             error_minimo = error_total;
-            //cout << "Error minimo en caso base: " << error_minimo << endl;
             minimo_bp = B;
-            //cout << "Breakpoints caso base:" << endl;
             for(int i = 0;  i < B.size(); i++){
                 cout << "[";
                 cout << B[i][0] << " ," << B[i][1];
